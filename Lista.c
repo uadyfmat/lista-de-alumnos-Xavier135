@@ -60,3 +60,32 @@ Nodo *crearNodo(Alumno *alumno) {
 	return nodo;
 }
 
+int insertarNodoOrdenadoCreditos(Nodo **lista, Nodo *nodo) {
+	if (*lista == NULL || (*lista)->dato.creditosAprobados <= nodo->dato.creditosAprobados) {
+		nodo->siguiente = *lista;
+		*lista = nodo;
+		return 1;
+	}
+	
+	Nodo *temp = *lista;
+	while (temp->siguiente != NULL && temp->siguiente->dato.creditosAprobados > nodo->dato.creditosAprobados) {
+		temp = temp->siguiente;
+	}
+	nodo->siguiente = temp->siguiente;
+	temp->siguiente = nodo;
+	return 1;
+}
+
+void imprimirAlumno(Alumno *alumno) {
+	printf("Nombre: %s, ", alumno->nombre);
+	printf("Créditos Aprobados: %d, ", alumno->creditosAprobados);
+	printf("Semestre Equivalente: %d\n", alumno->semestreEquivalente);
+}
+
+void imprimirLista(Nodo *lista) {
+	Nodo *temp = lista;
+	while (temp != NULL) {
+		imprimirAlumno(&(temp->dato));
+		temp = temp->siguiente;
+	}
+}
